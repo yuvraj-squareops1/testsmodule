@@ -74,7 +74,7 @@ pipeline {
                 // Use the selected branch in the build steps
                 checkout([$class: 'GitSCM',
                           branches: [[name: "*/${params.BRANCH_NAME}"]],
-                          userRemoteConfigs: [[url: 'https://github.com/your/repo.git']]])
+                          userRemoteConfigs: [[url: 'https://github.com/yuvraj-squareops1/testsmodule.git']]])
 
                 // Add the build steps here (e.g., compile, test, etc.)
                 // sh 'mvn clean install'
