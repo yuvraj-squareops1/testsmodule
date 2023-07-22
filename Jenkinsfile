@@ -7,8 +7,7 @@ pipeline {
         //extendedChoice(defaultValue: '', description: 'terraform module stacks', multiSelectDelimiter: ',', name: 'BRANCH_NAME', quoteValue: false, saveJSONParameterToFile: false, type: 'PT_SINGLE_SELECT', value: 'main,test,qa,dev', visibleItemCount: 4)
         choice(name: 'BRANCH_NAME',
                choices: ['main', 'test', 'qa', 'dev'],
-               description: 'terraform module stacks',
-               default: 'main')
+               description: 'terraform module stacks')
     }
 
     stages {
