@@ -8,7 +8,7 @@ pipeline {
         choice(name: 'BRANCH_NAME',
                choices: ['main', 'test', 'qa', 'dev'],
                description: 'terraform module stacks',
-               defaultValue: 'main')
+               default: 'main')
     }
 
     stages {
