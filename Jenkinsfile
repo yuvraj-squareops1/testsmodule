@@ -4,7 +4,7 @@ pipeline {
     parameters {
         // Add the branch parameter to allow selecting the branch from the UI
         //string(name: 'BRANCH_NAME', defaultValue: 'master', description: 'Enter the branch name to build')
-        extendedChoice(defaultValue: '', description: 'terraform module stacks', multiSelectDelimiter: ',', name: 'BRANCH_NAME', quoteValue: false, saveJSONParameterToFile: false, type: 'PT_CHECKBOX', value: 'main,test,qa,dev', visibleItemCount: 4)
+        extendedChoice(defaultValue: '', description: 'terraform module stacks', multiSelectDelimiter: ',', name: 'BRANCH_NAME', quoteValue: false, saveJSONParameterToFile: false, type: 'PT_SINGLE_SELECT', value: 'main,test,qa,dev', visibleItemCount: 4)
     }
 
     stages {
