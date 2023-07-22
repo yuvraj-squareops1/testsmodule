@@ -42,7 +42,6 @@
 
 pipeline {
     agent any
-
     stages {
         stage('Fetch Branches') {
             steps {
@@ -78,6 +77,8 @@ pipeline {
                           userRemoteConfigs: [[url: 'https://github.com/your/repo.git']]])
 
                 // Add the build steps here (e.g., compile, test, etc.)
+                // sh 'mvn clean install'
+                sh 'git branch -a'
                 sh 'ls -la'
             }
         }
