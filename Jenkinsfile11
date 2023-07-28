@@ -1,0 +1,69 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Select Branch') {
+            steps {
+                script {
+                    // Fetch all available branches using the git plugin
+                    def allBranches = sh(returnStdout: true, script: 'git ls-remote --heads origin | cut -f 2 | sed -e "s@refs/heads/@@g"')
+                    def branchChoices = allBranches.trim().split("\\r?\\n")
+
+                    // Use the input step to prompt the user to select a branch
+                    def selectedBranch = input(
+                        id: 'branchChoice',
+                        message: 'Select a branch to build:',
+                        parameters: [
+                            extendedChoice(name: 'BRANCH_NAME',
+                                description: 'Select branch:',
+                                type: 'PT_SINGLE_SELECT',
+                                value: branchChoices[0], // Default to the first branch
+                                groovyScript: [
+                                    sandbox: false,
+                                    script: branchChoices
+                                ]
+                            )
+                        ]
+                    )
+
+                    // Checkout the selected branch before proceeding with the build
+                    checkout([$class: 'GitSCM', branches: [[name: "*/${selectedBranch}"]]])
+                }
+            }
+        }
+        stage('Additional Stage with Extended Choice Parameter') {
+            steps {
+                script {
+                    // Define the options for the Extended Choice Parameter
+                    def options = ['Option 1', 'Option 2']
+
+                    // Use the input step to prompt the user to select options
+                    def selectedOptions = input(
+                        id: 'optionChoice',
+                        message: 'Select options:',
+                        parameters: [
+                            extendedChoice(name: 'OPTIONS',
+                                description: 'Select options:',
+                                type: 'PT_MULTI_SELECT',
+                                value: ['Option 1'], // Default to the first option selected
+                                groovyScript: [
+                                    sandbox: false,
+                                    script: options
+                                ]
+                            )
+                        ]
+                    )
+
+                    // Use the selected options in this stage or perform any other actions
+                    echo "Selected Options: ${selectedOptions}"
+                }
+            }
+        }
+        stage('Build') {
+            steps {
+                // Add your build steps here
+            }
+        }
+        // Add more stages as needed
+    }
+}
