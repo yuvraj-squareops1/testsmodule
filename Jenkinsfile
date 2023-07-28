@@ -85,7 +85,6 @@ pipeline {
                 sh 'ls -la'
             }
         }
-            stages {
         stage('Choose Fruit') {
             steps {
                 script {
@@ -114,8 +113,6 @@ pipeline {
                 }
             }
         }
-        // Add more stages as needed
-    }
     }
 
     post {
