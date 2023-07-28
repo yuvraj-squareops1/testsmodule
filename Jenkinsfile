@@ -94,6 +94,7 @@ pipeline {
                     // Use the input step to prompt the user for input
                     def userChoice = input(
                         id: 'fruitChoice',      // Unique ID for the input step
+                        ok: 'Submit',
                         message: 'Select your favorite fruit:',
                         parameters: [
                             extendedChoice(name: 'FRUIT', 
