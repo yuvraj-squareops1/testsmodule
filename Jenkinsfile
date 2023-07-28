@@ -41,8 +41,17 @@
 
 
 pipeline {
-    parameters {
-        extendedChoice(defaultValue: '', description: 'The Server Name', multiSelectDelimiter: ',', name: 'ServerName', quoteValue: false, saveJSONParameterToFile: false, type: 'PT_CHECKBOX', value: 'lou-dev-notify-web2.hellospoke.com,lou-dev-notify-web1.hellospoke.com', visibleItemCount: 2)
+        parameters {
+        extendedChoice(
+            name: 'FRUIT_NAME',
+            description: 'Select your favorite fruit:',
+            type: 'PT_SINGLE_SELECT',  // Use PT_SINGLE_SELECT for single-select
+            value: 'Apple',            // Provide the selected value as a single string
+            groovyScript: [
+                sandbox: false,
+                script: ['Apple', 'Banana', 'Orange', 'Grapes', 'Mango']
+            ]
+        )
     }
     agent any
     stages {
@@ -88,31 +97,12 @@ pipeline {
         stage('Choose Fruit') {
             steps {
                 script {
-                    def fruitOptions = ["Apple", "Banana", "Orange", "Grapes", "Mango"]
-
-                    // Use the input step with checkbox Extended Choice Parameter
-                    def userChoice = input(
-                        message: 'Select your favorite fruits:',
-                        ok: 'Submit',
-                        parameters: [
-                            extendedChoice(name: 'FRUIT_NAME',
-                                description: 'Select your favorite fruit(s):',
-                                multiSelectDelimiter: ',',  // Use comma as the delimiter
-                                quoteValue: false,
-                                type: 'PT_CHECKBOX',
-                                value: fruitOptions,
-                                visibleItemCount: 5
-                            )
-                        ]
-                    )
-
-                    // Use the selected fruits in the pipeline
-                    echo "Selected Fruits: ${userChoice.FRUIT_NAME}"
+                    // Access the selected fruit using ${params.FRUIT_NAME}
+                    echo "Selected Fruit: ${params.FRUIT_NAME}"
                 }
             }
         }
     }
-
     post {
         success {
             // Actions to be performed if the build is successful
