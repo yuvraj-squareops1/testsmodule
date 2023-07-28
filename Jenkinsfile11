@@ -15,7 +15,7 @@ pipeline {
                         parameters: [
                             extendedChoice(name: 'OPTIONS',
                                 description: 'Select options:',
-                                type: 'PT_MULTI_SELECT',
+                                type: 'PT_CHECKBOX',
                                 value: ['Option 1'], // Default to the first option selected
                                 groovyScript: [
                                     sandbox: false,
