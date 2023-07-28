@@ -85,13 +85,37 @@ pipeline {
                 sh 'ls -la'
             }
         }
-        stage('echo') {
+            stages {
+        stage('Choose Fruit') {
             steps {
-                // Add the build steps here (e.g., compile, test, etc.)
-                // sh 'mvn clean install'
-                sh 'echo {params.ServerName}'
+                script {
+                    // Define the Extended Choice Parameter options
+                    def ServerName = ["Apple", "Banana", "Orange", "Grapes", "Mango"]
+
+                    // Use the input step to prompt the user for input
+                    def userChoice = input(
+                        id: 'fruitChoice',      // Unique ID for the input step
+                        message: 'Select your favorite fruit:',
+                        parameters: [
+                            extendedChoice(name: 'FRUIT', 
+                                description: 'Select your favorite fruit:',
+                                multiSelectDelimiter: ',',
+                                quoteValue: false,
+                                saveJSONParameterToFile: false,
+                                type: 'PT_CHECKBOX',
+                                value: 'Apple,Banana,Orange',
+                                visibleItemCount: 5
+                            )
+                        ]
+                    )
+
+                    // Use the selected fruit in the pipeline
+                    echo "Selected Fruit: ${userChoice.FRUIT}"
+                }
             }
         }
+        // Add more stages as needed
+    }
     }
 
     post {
