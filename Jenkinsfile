@@ -88,24 +88,26 @@ pipeline {
         stage('Choose Fruit') {
             steps {
                 script {
-                    // Define the Extended Choice Parameter options
-                    def ServerName = ["Apple", "Banana", "Orange", "Grapes", "Mango"]
+                    def fruitOptions = ["Apple", "Banana", "Orange", "Grapes", "Mango"]
 
-                    // Use the input step to prompt the user for input
-                    properties([
-                        parameters: ([
+                    // Use the input step with checkbox Extended Choice Parameter
+                    def userChoice = input(
+                        message: 'Select your favorite fruits:',
+                        ok: 'Submit',
+                        parameters: [
                             extendedChoice(name: 'FRUIT_NAME',
-                                description: 'Select your favorite fruit:',
-                                multiSelectDelimiter: ',',
+                                description: 'Select your favorite fruit(s):',
+                                multiSelectDelimiter: ',',  // Use comma as the delimiter
                                 quoteValue: false,
                                 type: 'PT_CHECKBOX',
-                                value: ServerName,
-                                visibleItemCount: 5)           
-                ])
-                            ])
-                                         
-                    // Use the selected fruit in the pipeline
-                    echo "Selected Fruit: ${FRUIT_NAME}"
+                                value: fruitOptions,
+                                visibleItemCount: 5
+                            )
+                        ]
+                    )
+
+                    // Use the selected fruits in the pipeline
+                    echo "Selected Fruits: ${userChoice.FRUIT_NAME}"
                 }
             }
         }
