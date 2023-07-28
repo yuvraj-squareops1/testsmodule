@@ -92,25 +92,19 @@ pipeline {
                     def ServerName = ["Apple", "Banana", "Orange", "Grapes", "Mango"]
 
                     // Use the input step to prompt the user for input
-                    def userChoice = input(
-                        id: 'fruitChoice',      // Unique ID for the input step
-                        ok: 'Submit',
-                        message: 'Select your favorite fruit:',
-                        parameters: [
-                            extendedChoice(name: 'FRUIT', 
+                    properties([
+                        parameters: ([
+                            extendedChoice(name: 'FRUIT_NAME',
                                 description: 'Select your favorite fruit:',
                                 multiSelectDelimiter: ',',
                                 quoteValue: false,
-                                saveJSONParameterToFile: false,
                                 type: 'PT_CHECKBOX',
-                                value: 'Apple,Banana,Orange',
-                                visibleItemCount: 5
-                            )
-                        ]
-                    )
-
+                                value: ServerName,
+                                visibleItemCount: 5)                                
                     // Use the selected fruit in the pipeline
-                    echo "Selected Fruit: ${userChoice.FRUIT}"
+                    echo "Selected Fruit: ${FRUIT_NAME}"
+                ])
+                            ])
                 }
             }
         }
