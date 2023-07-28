@@ -89,7 +89,7 @@ pipeline {
             steps {
                 // Add the build steps here (e.g., compile, test, etc.)
                 // sh 'mvn clean install'
-                sh 'echo $ServerName'
+                sh 'echo {params.ServerName}'
             }
         }
     }
