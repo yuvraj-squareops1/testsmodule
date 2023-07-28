@@ -100,11 +100,12 @@ pipeline {
                                 quoteValue: false,
                                 type: 'PT_CHECKBOX',
                                 value: ServerName,
-                                visibleItemCount: 5)                                
-                    // Use the selected fruit in the pipeline
-                    echo "Selected Fruit: ${FRUIT_NAME}"
+                                visibleItemCount: 5)           
                 ])
                             ])
+                                         
+                    // Use the selected fruit in the pipeline
+                    echo "Selected Fruit: ${FRUIT_NAME}"
                 }
             }
         }
