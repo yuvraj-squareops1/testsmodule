@@ -1,34 +1,18 @@
-pipeline {
-    agent any
-
-    stages {
-        stage('Additional Stage with Extended Choice Parameter') {
-            steps {
-                script {
-                    // Define the options for the Extended Choice Parameter
-                    def options = ['Option 1', 'Option 2']
-
-                    // Use the input step to prompt the user to select options
-                    def selectedOptions = input(
-                        id: 'optionChoice',
-                        message: 'Select options:',
-                        parameters: [
-                            extendedChoice(name: 'OPTIONS',
-                                description: 'Select options:',
-                                type: 'PT_CHECKBOX',
-                                value: ['Option 1'], // Default to the first option selected
-                                groovyScript: [
-                                    sandbox: false,
-                                    script: options
-                                ]
-                            )
-                        ]
-                    )
-
-                    // Use the selected options in this stage or perform any other actions
-                    echo "Selected Options: ${selectedOptions}"
-                }
-            }
-        }
+pipeline 
+{ 
+    agent any 
+parameters
+    { 
+        gitParameter branchFilter: 'origin/(.*)', defaultValue: 'master', name: 'BRANCH', type: 'PT_BRANCH' 
     }
+    stages 
+    { 
+       stage("list all branches") 
+       { 
+           steps 
+           { 
+                git branch: "${params.BRANCH}", url: "https://github.com/yuvraj-squareops1/testsmodule.git" 
+           } 
+      } 
+   } 
 }
