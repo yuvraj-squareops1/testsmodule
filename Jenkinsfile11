@@ -14,5 +14,12 @@ parameters
                 git branch: "${params.BRANCH}", url: "https://github.com/yuvraj-squareops1/testsmodule.git" 
            } 
       } 
+    stage("list all folder") 
+       { 
+           steps 
+           { 
+                sh 'ls -la'
+           } 
+      } 
    } 
 }
