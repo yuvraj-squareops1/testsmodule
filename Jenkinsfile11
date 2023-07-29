@@ -4,6 +4,7 @@ pipeline
 parameters
     { 
         gitParameter branchFilter: 'origin/(.*)', defaultValue: 'master', name: 'BRANCH', type: 'PT_BRANCH' 
+        extendedChoice(defaultValue: '', description: 'server-name', multiSelectDelimiter: ',', name: 'ServerName', quoteValue: false, saveJSONParameterToFile: false, type: 'PT_CHECKBOX', value: 'lou-dev-notify-web2.hellospoke.com,lou-dev-notify-web1.hellospoke.com', visibleItemCount: 8)
     }
     stages 
     { 
@@ -20,6 +21,13 @@ parameters
            { 
                 sh 'ls -la'
            } 
-      } 
+      }
+    stage("print variable") 
+       { 
+           steps 
+           { 
+                sh 'echo ${params.ServerName}'
+           } 
+      }
    } 
 }
