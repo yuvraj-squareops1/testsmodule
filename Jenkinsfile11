@@ -75,7 +75,6 @@ pipeline
                  echo 'pushed to ECR'
                  '''
                 }
-               }
             else {
               echo "The Image can't be pushed due to too many vulnerbilities"
               exit
@@ -83,4 +82,5 @@ pipeline
          }
            } 
       }
+}
 }
