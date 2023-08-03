@@ -59,8 +59,8 @@ pipeline
                     steps {
                          script {
                               // Some logic to calculate the value of MY_VARIABLE
-                              high = 5
-                              critical = 10
+                              high = 551
+                              critical = 100
                               echo "Value of MY_VARIABLE in Stage 1: ${high}, ${critical}"
                          }
                     }
