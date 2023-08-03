@@ -42,6 +42,10 @@ pipeline
         gitParameter branchFilter: 'origin/(.*)', defaultValue: 'master', name: 'BRANCH', type: 'PT_BRANCH' 
         extendedChoice(defaultValue: '', description: 'server-name', multiSelectDelimiter: ',', name: 'ServerName', quoteValue: false, saveJSONParameterToFile: false, type: 'PT_CHECKBOX', value: 'lou-dev-notify-web2.hellospoke.com,lou-dev-notify-web1.hellospoke.com', visibleItemCount: 8)
     }
+    environment {
+        high = ''
+        critical = ''
+    }
     stages 
     { 
        stage("list all branches") 
@@ -51,20 +55,16 @@ pipeline
                 git branch: "${params.BRANCH}", url: "https://github.com/yuvraj-squareops1/testsmodule.git" 
            } 
       } 
-    stage("list all folder") 
-       { 
-           steps 
-           { 
-               script {
-                  sh '''
-                   export high=5
-                    export critical=5
-                    echo ${critical}
-                    echo ${high}
-                '''
+          stage('Stage 1') {
+                    steps {
+                         script {
+                              // Some logic to calculate the value of MY_VARIABLE
+                              high = 5
+                              critical = 10
+                              echo "Value of MY_VARIABLE in Stage 1: ${high}, ${critical}"
+                         }
+                    }
                }
-           } 
-      }
     stage("print variable") 
        { 
            steps 
