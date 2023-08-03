@@ -43,8 +43,8 @@ pipeline
         extendedChoice(defaultValue: '', description: 'server-name', multiSelectDelimiter: ',', name: 'ServerName', quoteValue: false, saveJSONParameterToFile: false, type: 'PT_CHECKBOX', value: 'lou-dev-notify-web2.hellospoke.com,lou-dev-notify-web1.hellospoke.com', visibleItemCount: 8)
     }
     environment {
-        high = ''
-        critical = ''
+        high = 400
+        critical = 70
     }
     stages 
     { 
@@ -65,23 +65,19 @@ pipeline
                          }
                     }
                }
-    stage("print variable") 
-       { 
-           steps 
-           { 
-          script {
-             echo 'push to ecr step start'
-             if ( "$high" < 500 && "$critical" < 80 ) {
-                 sh '''
-                 echo 'pushed to ECR'
-                 '''
+        stage("Print Variable") {
+            steps {
+                script {
+                    echo 'Push to ECR step start'
+                    if (high < 500 && critical < 80) {
+                        echo 'Pushed to ECR'
+                        // Add your ECR push steps here instead of just echoing
+                    } else {
+                        echo "The image can't be pushed due to too many vulnerabilities"
+                        error("Aborting the pipeline")
+                    }
                 }
-            else {
-              echo "The Image can't be pushed due to too many vulnerbilities"
-              exit
             }
-         }
-           } 
-      }
-}
+        }
+    }
 }
