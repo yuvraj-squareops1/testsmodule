@@ -56,11 +56,12 @@ pipeline
            steps 
            { 
                script {
+                  sh '''
                     high = 5
                     critical = 5
                     echo ${critical}
                     echo ${high}
-
+                '''
                }
            } 
       }
