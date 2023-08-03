@@ -1,7 +1,43 @@
 pipeline 
+// { 
+//     agent any 
+// parameters
+//     { 
+//         gitParameter branchFilter: 'origin/(.*)', defaultValue: 'master', name: 'BRANCH', type: 'PT_BRANCH' 
+//         extendedChoice(defaultValue: '', description: 'server-name', multiSelectDelimiter: ',', name: 'ServerName', quoteValue: false, saveJSONParameterToFile: false, type: 'PT_CHECKBOX', value: 'lou-dev-notify-web2.hellospoke.com,lou-dev-notify-web1.hellospoke.com', visibleItemCount: 8)
+//     }
+//     stages 
+//     { 
+//        stage("list all branches") 
+//        { 
+//            steps 
+//            { 
+//                 git branch: "${params.BRANCH}", url: "https://github.com/yuvraj-squareops1/testsmodule.git" 
+//            } 
+//       } 
+//     stage("list all folder") 
+//        { 
+//            steps 
+//            { 
+//                 sh 'ls -la'
+//            } 
+//       }
+//     stage("print variable") 
+//        { 
+//            steps 
+//            { 
+//                 sh "echo ${params.ServerName}"
+//            } 
+//       }
+//    } 
+// }
+
+
+
+pipeline 
 { 
     agent any 
-parameters
+   parameters
     { 
         gitParameter branchFilter: 'origin/(.*)', defaultValue: 'master', name: 'BRANCH', type: 'PT_BRANCH' 
         extendedChoice(defaultValue: '', description: 'server-name', multiSelectDelimiter: ',', name: 'ServerName', quoteValue: false, saveJSONParameterToFile: false, type: 'PT_CHECKBOX', value: 'lou-dev-notify-web2.hellospoke.com,lou-dev-notify-web1.hellospoke.com', visibleItemCount: 8)
@@ -19,15 +55,32 @@ parameters
        { 
            steps 
            { 
-                sh 'ls -la'
+               script {
+                    high = 5
+                    critical = 5
+                    echo ${critical}
+                    echo ${high}
+
+               }
            } 
       }
     stage("print variable") 
        { 
            steps 
            { 
-                sh "echo ${params.ServerName}"
+          script {
+             echo 'push to ecr step start'
+             if ( "$high" < 500 && "$critical" < 80 ) {
+                 sh '''
+                 echo 'pushed to ECR'
+                 '''
+                }
+               }
+            else {
+              echo "The Image can't be pushed due to too many vulnerbilities"
+              exit
+            }
+         }
            } 
       }
-   } 
 }
