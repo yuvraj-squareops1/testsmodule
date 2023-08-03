@@ -32,7 +32,11 @@ pipeline
 //    } 
 // }
 
-
+def BuildVersion() {
+    script {
+        return sh(script: "git rev-parse --short=7 HEAD ", returnStdout: true)
+    }
+}
 
 pipeline 
 { 
@@ -45,6 +49,7 @@ pipeline
     environment {
         high = 400
         critical = 70
+        BUILD_VERSION = BuildVersion().trim()
     }
     stages 
     { 
@@ -62,6 +67,7 @@ pipeline
                               high = 551
                               critical = 100
                               echo "Value of MY_VARIABLE in Stage 1: ${high}, ${critical}"
+                              echo "${BUILD_VERSION}"
                          }
                     }
                }
